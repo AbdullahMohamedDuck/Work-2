@@ -16,46 +16,41 @@
 
 
 <div id="app">
-    <!-- Start Cart -->
+    
 
     <header>
     <h1 v-text='sitename'></h1>
-    <button v-if="cart.length > 0" v-on:click='showCheckout'> {{cart.length}} <span
-        class="fas fa-cart-plus"></span>Cart
+    
+
+    <!-- Start Cart -->
+    <button class="buttonstyle" v-if="cart.length > 0" v-on:click='showCheckout'> {{cart.length}} <span
+        class="fas fa-shopping-cart"></span>Cart
     </button>    
 </header>
+
 
     <!-- End Cart -->
 
 <div class="MainDiv">
     
-        <div class="sortbyflex">
-    <!-- Start sorting ascending/descending -->
-        
-    <aside>
-
-       <select v-model="sort" id="sortby">
-       <option value="ascending">Ascending</option>
-       <option value="descending">Descending</option>
-</select>
-
-                        
-            <h3>Sort by</h3>
-            <ul>
-                <li><button v-on:click="type = 'price'">Price</button></li>
-            </ul>
-        </aside>    
-        
-</div>       
-    <!-- End sorting ascending/descending -->
+    
             
     <!-- Start Product Container -->
     <div class="card-container">
-        
+        test
     
     <div class="styles" v-if='showProduct'>
-
-        <div v-for='product in products'>
+        <div class="sortbyflex">
+            <!-- Start sorting ascending/descending -->
+                
+            <br><strong>Sort By</strong>
+                        <p><button @click="sort('title')"><span class="fas fa-sort"></span></button> Subject</p>
+                        <p><button @click="sort('location')"><span class="fas fa-sort"></span></button> Location</p>
+                        <p><button @click="sort('price')"><span class="fas fa-sort"></span></button> Price</p>
+                
+        </div>       
+            <!-- End sorting ascending/descending -->
+        <div v-for='product in sortedProducts'>
             
     <div class="subjectborder">
     <figure> <img v-bind:src='product.image'> </figure>
@@ -79,16 +74,34 @@
  
 
 <!-- Start of Check out-->
-<div v-else>
+<div v-else>    
+    
+<button @click='backPage'>Previous Page</button>
+
     <h2>Checkout</h2>
-    <button @click='backPage'>Previous Page</button>
     
-    
+    <p>
+        <Strong>First name</Strong>
+        <input v-model='order.firstName'>
+
+    </p>
+
+    <p>
+        <Strong>Last name</Strong>
+        <input v-model='order.lastName'>
+
+    </p>
+
+    <p>
+        <Strong>Phone number</Strong>
+        <input v-model='order.phoneNumber'>
+
+    </p>
 
     <h3>Order Information</h3>
-    <p>First name {{order.firstName}}</p>
-    <p>Last name {{order.lastName}}</p>
-    <p>Phone number {{order.phoneNumber}}</p>
+    <p>First name: {{order.firstName}}</p>
+    <p>Last name: {{order.lastName}}</p>
+    <p>Phone number: {{order.phoneNumber}}</p>
     
 
     <button @click='sumbitForm'> Place Order </button>
@@ -107,22 +120,17 @@
             products: products,
 
         cart:[],
+        sortBy: '',
+        sortDir: 'asc',
         order: {
             firstName:'',
             lastName: '',
-            address:'',
             phoneNumber:'',
             gift: 'No.',
             sendGift: 'Yes.',
             doNotSendGift: 'No.'
         },
         
-        states: {
-            AL: 'Alabama',
-            AR: 'Arizona',
-            CA: 'California',
-            NV: 'Nevada'
-        },
     },
 
         methods: {
@@ -133,11 +141,7 @@
                 this.showProduct = this.showProduct ? false : true;
             },      
 
-            sumbitForm(){
-                alert('Order submitted!')
-                console.log('order submitted!!')
-
-            },
+           
             backPage(){
                 this.showProduct = this.showProduct ? false : true;
             },
@@ -159,27 +163,34 @@
             itemLeft (product){
                 return product.availableInventory - this.cartCount(product.id)
 
-            }
+            },
+
+            sort(s) {
+                if(s === this.sortBy) {
+                    this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+                }
+                this.sortBy = s;
+
+            },
         },
 
         computed: {
             cartItemCount(){
                 return this.cart.length;
-            },   
-            sortedProducts() {
-                    switch (this.type) {
-        
-                        case 'price':
-                            return this.product.sort((a, b) => {
-                                return this.sort == 'ascending' ? a.price - b.price : b.price - a.price;
-                            })
-                        
-                    }
-                }
-            },
-            created() {
-                this.products = products
+            }, 
+            sortedProducts: function() {
+                    return this.products        .sort((a, b) =>{
+                        let modifier = 1;
+                        if(this.sortDir === 'desc') modifier = -1;
+                        if(a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
+                        if(a[this.sortBy] > b[this.sortBy]) return 1 * modifier;
+                        return 0;
+                    })
+
+                },  
+            
             }
+            
         });
    
 
