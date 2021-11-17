@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Work Abdullah </title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="design.css">
+    <script src="products.js"></script>
+    
+</head>
+
+<body>
+
+
+<div id="app">
+    <!-- Start Cart -->
+
+    <header>
+    <h1 v-text='sitename'></h1>
+    <button v-if="cart.length > 0" v-on:click='showCheckout'> {{cart.length}} <span
+        class="fas fa-cart-plus"></span>Cart
+    </button>    
+</header>
+
+    <!-- End Cart -->
+
+<div class="MainDiv">
+    
+        <div class="sortbyflex">
+    <!-- Start sorting ascending/descending -->
+        
+    <aside>
+
+       <select v-model="sort" id="sortby">
+       <option value="ascending">Ascending</option>
+       <option value="descending">Descending</option>
+</select>
+
+                        
+            <h3>Sort by</h3>
+            <ul>
+                <li><button v-on:click="type = 'price'">Price</button></li>
+            </ul>
+        </aside>    
+        
+</div>       
+    <!-- End sorting ascending/descending -->
+            
+    <!-- Start Product Container -->
+    <div class="card-container">
+        
+    
+    <div class="styles" v-if='showProduct'>
+
+        <div v-for='product in products'>
+            
+    <div class="subjectborder">
+    <figure> <img v-bind:src='product.image'> </figure>
+    <h2 v-text= 'product.title'></h2>
+    <p>Description: {{product.description}}</p>
+    <p>Location: {{product.location}}</p>
+    <p>Price: £{{product.price}}</p>
+   <button @click='addItem(product)' v-bind:disabled='!canAddToCart(product)'>Add to cart</button>
+   <span v-if='itemLeft(product) === 0'>All Out!</span>
+   <span v-else-if='itemLeft(product) < 3' >
+       Only {{itemLeft(product)}} left! </span>
+    <span v-else>Buy now!</span>
+    
+</div>
+</div>
+</div>
+
+
+
+ <!-- End Product Container -->
+ 
+
+<!-- Start of Check out-->
+<div v-else>
+    <h2>Checkout</h2>
+    <button @click='backPage'>Previous Page</button>
+    
+    
+
+    <h3>Order Information</h3>
+    <p>First name {{order.firstName}}</p>
+    <p>Last name {{order.lastName}}</p>
+    <p>Phone number {{order.phoneNumber}}</p>
+    
+
+    <button @click='sumbitForm'> Place Order </button>
+
+</div>
+<!-- End of Check out-->
+
+<!-- Start of JS-->
+
+<script type="text/javascript">
+    let webstore = new Vue({
+        el: "#app",
+        data:{
+            sitename: "Subject Classes",
+            showProduct: true,
+            products: products,
+
+        cart:[],
+        order: {
+            firstName:'',
+            lastName: '',
+            address:'',
+            phoneNumber:'',
+            gift: 'No.',
+            sendGift: 'Yes.',
+            doNotSendGift: 'No.'
+        },
+        
+        states: {
+            AL: 'Alabama',
+            AR: 'Arizona',
+            CA: 'California',
+            NV: 'Nevada'
+        },
+    },
+
+        methods: {
+            addItem(product){      
+                this.cart.push(product.id)
+            },
+            showCheckout() {
+                this.showProduct = this.showProduct ? false : true;
+            },      
+
+            sumbitForm(){
+                alert('Order submitted!')
+                console.log('order submitted!!')
+
+            },
+            backPage(){
+                this.showProduct = this.showProduct ? false : true;
+            },
+
+            canAddToCart(product) {
+                return product.availableInventory > this.cartCount(product.id);
+            },
+            cartCount(id){
+                let count = 0
+                for (let i=0; i<this.cart.length    ; i++) {
+                    if(this.cart[i]===id)
+                    {
+                        count++
+                    }
+                }
+                return count
+
+            },
+            itemLeft (product){
+                return product.availableInventory - this.cartCount(product.id)
+
+            }
+        },
+
+        computed: {
+            cartItemCount(){
+                return this.cart.length;
+            },   
+            sortedProducts() {
+                    switch (this.type) {
+        
+                        case 'price':
+                            return this.product.sort((a, b) => {
+                                return this.sort == 'ascending' ? a.price - b.price : b.price - a.price;
+                            })
+                        
+                    }
+                }
+            },
+            created() {
+                this.products = products
+            }
+        });
+   
+
+//End of JS
+
+</script>
+
+
+
+
+</body>
+</html>
