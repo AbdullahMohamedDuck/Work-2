@@ -58,11 +58,9 @@
     <p>Description: {{product.description}}</p>
     <p>Location: {{product.location}}</p>
     <p>Price: £{{product.price}}</p>
-   <button @click='addItem(product)' v-bind:disabled='!canAddToCart(product)'>Add to cart</button>
-   <span v-if='itemLeft(product) === 0'>All Out!</span>
-   <span v-else-if='itemLeft(product) < 3' >
-       Only {{itemLeft(product)}} left! </span>
-    <span v-else>Buy now!</span>
+    <p>Spaces: {{product.availableInventory}}</p>
+   <button @click='addItem(product)' v-bind:disabled='!canAddToItem(product)'>Add to cart</button>
+
     
 </div>
 </div>
@@ -150,6 +148,7 @@
         methods: {
             addItem(product){      
                 this.cart.push(product)
+                product.availableInventory--;
             },
             showCheckout() {
                 this.showProduct = this.showProduct ? false : true;
@@ -160,8 +159,8 @@
                 this.showProduct = this.showProduct ? false : true;
             },
 
-            canAddToCart(product) {
-                return product.availableInventory > this.cartCount(product);
+            canAddToItem(product) {
+                return product.availableInventory > 0;
             },
             cartCount(product){
                 let count = 0
@@ -186,17 +185,13 @@
                 this.sortBy = s;
 
             },
-            removeFromCart(product) {
-                let index = this.cart.indexOf(product);
-                this.cart.splice(index, 1);
-                product.availableInventory++;
-            },
+           
             
         },
 
         computed: {
             cartItemCount(){
-                return this.cart.length;
+                return this.cart.length || '0';
             }, 
             sortedProducts: function() {
                     return this.products        .sort((a, b) =>{
