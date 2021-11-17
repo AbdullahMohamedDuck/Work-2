@@ -73,13 +73,24 @@
  <!-- End Product Container -->
  
 
-<!-- Start of Check out-->
+<!-- Start of Check out Page-->
 <div v-else>    
     
 <button @click='backPage'>Previous Page</button>
 
     <h2>Checkout</h2>
-    
+    <ul>
+   
+        <div v-for="(product, products) in cart" class="productList">
+         <img v-bind:src='product.image' alt="" width="100px" height="100px">
+        </span><br>
+        Subject: {{product.subject}} <br>
+        Location: {{product.location}} <br>
+        Price: £{{product.price}} <br>
+        <button @click='removeFromCart(product)'>Remove from cart</button>
+        <br>
+    </div>
+    </ul>
     <p>
         <Strong>First name</Strong>
         <input v-model='order.firstName'>
@@ -172,6 +183,7 @@
                 this.sortBy = s;
 
             },
+            
         },
 
         computed: {
