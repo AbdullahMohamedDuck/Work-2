@@ -83,7 +83,7 @@
    
         <div v-for="(product, products) in cart" class="productList">
          <img v-bind:src='product.image' alt="" width="100px" height="100px">
-        </span><br>
+        <br>
         Subject: {{product.subject}} <br>
         Location: {{product.location}} <br>
         Price: £{{product.price}} <br>
@@ -146,7 +146,7 @@
 
         methods: {
             addItem(product){      
-                this.cart.push(product.id)
+                this.cart.push(product)
             },
             showCheckout() {
                 this.showProduct = this.showProduct ? false : true;
@@ -158,12 +158,12 @@
             },
 
             canAddToCart(product) {
-                return product.availableInventory > this.cartCount(product.id);
+                return product.availableInventory > this.cartCount(product);
             },
-            cartCount(id){
+            cartCount(product){
                 let count = 0
                 for (let i=0; i<this.cart.length    ; i++) {
-                    if(this.cart[i]===id)
+                    if(this.cart[i]===product)
                     {
                         count++
                     }
