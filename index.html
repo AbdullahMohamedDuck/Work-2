@@ -81,6 +81,7 @@
     <h2>Checkout</h2>
     <ul>
    
+        <!-- Start of remove item from cart-->
         <div v-for="(product, products) in cart" class="productList">
          <img v-bind:src='product.image' alt="" width="100px" height="100px">
         <br>
@@ -89,6 +90,8 @@
         Price: £{{product.price}} <br>
         <button @click='removeFromCart(product)'>Remove from cart</button>
         <br>
+         <!-- End of remove item from cart-->
+
     </div>
     </ul>
     <p>
@@ -182,6 +185,11 @@
                 }
                 this.sortBy = s;
 
+            },
+            removeFromCart(product) {
+                let index = this.cart.indexOf(product);
+                this.cart.splice(index, 1);
+                product.availableInventory++;
             },
             
         },
