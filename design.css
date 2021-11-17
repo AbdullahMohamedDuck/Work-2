@@ -87,3 +87,9 @@ aside ul li button:hover{
     background-color: #FFFFFF	;
 
 }
+
+.productList {
+    display: inline-block;
+    margin-left: 100px;
+    margin-top: 50px;
+}
