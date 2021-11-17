@@ -89,8 +89,7 @@
         <button @click='removeFromCart(product)'>Remove from cart</button>
         <br>
          <!-- End of remove item from cart-->
-
-    </div>
+        </div>
     </ul>
     <p>
         <Strong>First name</Strong>
@@ -154,7 +153,12 @@
                 this.showProduct = this.showProduct ? false : true;
             },      
 
-           
+            removeFromCart(product) {
+                let index = this.cart.indexOf(product);
+                this.cart.splice(index, 1);
+                product.availableInventory++;
+            },
+            
             backPage(){
                 this.showProduct = this.showProduct ? false : true;
             },
@@ -173,10 +177,6 @@
                 return count
 
             },
-            itemLeft (product){
-                return product.availableInventory - this.cartCount(product.id)
-
-            },
 
             sort(s) {
                 if(s === this.sortBy) {
@@ -185,6 +185,7 @@
                 this.sortBy = s;
 
             },
+            
            
             
         },
