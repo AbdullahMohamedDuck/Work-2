@@ -115,15 +115,15 @@
     <p>Phone number: {{order.phoneNumber}}</p>
     
 
-    <button @click='sumbitForm'> Place Order </button>
 
 </div>
 <!-- End of Check out-->
 
 <!-- Start of JS-->
 
-<script type="text/javascript">
-    let webstore = new Vue({
+<script>
+
+      let webstore = new Vue({
         el: "#app",
         data:{
             sitename: "Subject Classes",
@@ -194,6 +194,7 @@
             cartItemCount(){
                 return this.cart.length || '0';
             }, 
+            
             sortedProducts: function() {
                     return this.products        .sort((a, b) =>{
                         let modifier = 1;
