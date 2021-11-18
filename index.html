@@ -65,7 +65,7 @@
     <p>Location: {{product.location}}</p>
     <p>Price: £{{product.price}}</p>
     <p>Spaces: {{product.availableInventory}}</p>
-   <button @click='addItem(product)' v-bind:disabled='!canAddToItem(product)'>Add to cart</button>
+   <button @click='addItem(product)' v-bind:disabled='!canAddToItem(product)'><span class="fas fa-shopping-basket"></span>Add to cart</button>
     
     
 </div>
