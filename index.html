@@ -113,7 +113,8 @@
     <p>First name: {{order.firstName}}</p>
     <p>Last name: {{order.lastName}}</p>
     <p>Phone number: {{order.phoneNumber}}</p>
-    
+    <button @Click="formAcceptenance" :disabled="!orderFormCheck">Checkout</button>
+
 
 
 </div>
@@ -185,15 +186,28 @@
                 this.sortBy = s;
 
             },
-            
            
+           
+                formAcceptenance() {
+                alert("Order has been successfully placed!");
+            },
             
         },
 
         computed: {
-            cartItemCount(){
-                return this.cart.length || '0';
-            }, 
+            
+            orderFormCheck(){
+                let lettercheck = /^[a-z]+$/i;
+                let numbercheck = /^[0-9]+$/i;
+                if (lettercheck.test(this.order.firstName) &&
+                    lettercheck.test(this.order.lastName) && numbercheck.test(this.order.phoneNumber)) {
+                    this.order.correct = true;   
+                }
+                else {
+                    this.order.correct = false; 
+                }
+                return this.order.correct;
+            },
             
             sortedProducts: function() {
                     return this.products        .sort((a, b) =>{
