@@ -31,7 +31,7 @@ let products = [
 {  
     "id":1004,
     "title":"Subject: Chemistry",
-    "description":"Learn chemistry with this subject",
+    "description":"Learn chemistry ",
     "price": 200,
     "location": "Liverpool",
     "image":"images/chemistry.jpg", 
@@ -40,7 +40,7 @@ let products = [
 {  
     "id":1005,
     "title":"Subject: Computing",
-    "description":"Learn to code with computing classes",
+    "description":"Learn to code!",
     "price":129,
     "location": "York",
     "image":"images/computing.jpg", 
@@ -49,7 +49,7 @@ let products = [
 {  
     "id":1006,
     "title":"Subject: Engineering",
-    "description":"Learn the fundamentals of design and building",
+    "description":"Learn the design!",
     "price":200,
     "location": "Manchester",
     "image":"images/engineering.jpg", 
