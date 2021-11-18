@@ -40,10 +40,16 @@
         
     
     <div class="styles" v-if='showProduct'>
-        <div class="sortbyflex">
-            <!-- Start sorting ascending/descending -->
-                
-            <br><strong>Sort By</strong>
+        <div class="sortbyflex"> 
+            
+        <!--Start Search-->
+        <strong>Search:</strong>
+        <input type="text" v-model.trim=search>
+         <br><br>
+        <!-- End Search -->
+        
+        <!-- Start sorting ascending/descending -->
+            <strong>Sort By</strong>           
                         <p><button @click="sort('title')"><span class="fas fa-sort"></span></button> Subject</p>
                         <p><button @click="sort('location')"><span class="fas fa-sort"></span></button> Location</p>
                         <p><button @click="sort('price')"><span class="fas fa-sort"></span></button> Price</p>
@@ -60,7 +66,7 @@
     <p>Price: £{{product.price}}</p>
     <p>Spaces: {{product.availableInventory}}</p>
    <button @click='addItem(product)' v-bind:disabled='!canAddToItem(product)'>Add to cart</button>
-
+    
     
 </div>
 </div>
@@ -122,9 +128,9 @@
 
 <!-- Start of JS-->
 
-<script>
+<script type="application/javascript"> 
 
-      let webstore = new Vue({
+      let webshop = new Vue({
         el: "#app",
         data:{
             sitename: "Subject Classes",
@@ -132,6 +138,7 @@
             products: products,
 
         cart:[],
+        search:"",
         sortBy: '',
         sortDir: 'asc',
         order: {
@@ -167,18 +174,9 @@
             canAddToItem(product) {
                 return product.availableInventory > 0;
             },
-            cartCount(product){
-                let count = 0
-                for (let i=0; i<this.cart.length    ; i++) {
-                    if(this.cart[i]===product)
-                    {
-                        count++
-                    }
-                }
-                return count
+            
 
-            },
-
+            // Sorting Function
             sort(s) {
                 if(s === this.sortBy) {
                     this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
@@ -195,8 +193,8 @@
         },
 
         computed: {
-            
-            orderFormCheck(){
+                       // Number/Name checker Function
+                orderFormCheck(){
                 let lettercheck = /^[a-z]+$/i;
                 let numbercheck = /^[0-9]+$/i;
                 if (lettercheck.test(this.order.firstName) &&
@@ -209,9 +207,9 @@
                 return this.order.correct;
             },
           
-            
+            // Sorting Function
             sortedProducts: function() {
-                    return this.products        .sort((a, b) =>{
+                    return this.products.sort((a, b) =>{
                         let modifier = 1;
                         if(this.sortDir === 'desc') modifier = -1;
                         if(a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
@@ -219,9 +217,25 @@
                         return 0;
                     })
 
-                },  
+                    // Search Function
+                    for (let i = 0; i < this.products.length; i++) {
+                        let location = this.products[i].location.toLowerCase(); 
+                        let subject = this.products[i].subject.toLowerCase();
+                    if (!(subject.includes(this.search.toLowerCase()) || location.toLowerCase().includes(this.search.toLowerCase()))) {
+                        this.products[i] = false;
+                    }
+                    else{
+                        this.products[i] = true;
+                    }
+                    }
+                return this.products.sort(compare);
+                    },  
+         },
+
+           
+                
             
-            }
+            
             
         });
    
