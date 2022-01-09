@@ -89,7 +89,7 @@
         <div v-for="(product, products) in cart" class="productList">
          <img v-bind:src='product.image' alt="" width="100px" height="100px">
         <br>
-        Subject: {{product.subject}} <br>
+        {{product.title}} <br>
         Location: {{product.location}} <br>
         Price: £{{product.price}} <br>
         <button @click='removeFromCart(product)'>Remove from cart</button>
